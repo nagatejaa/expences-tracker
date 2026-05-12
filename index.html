@@ -614,7 +614,7 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
   <!-- ─── SETTINGS ─── -->
   <div id="settingsView" class="hidden">
     <div class="card">
-      <div class="card-label">Google Sheets Sync</div>
+      <!-- <div class="card-label">Google Sheets Sync</div>
       <div class="settings-info">
         📋 Connect to Google Sheets for <strong>persistent storage</strong> across all devices. Without this, data is only saved in <strong>your browser</strong>.
       </div>
@@ -624,7 +624,7 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
       </div>
       <button class="btn btn-primary" onclick="app.saveScriptUrl()">Save & Connect</button>
       <button class="btn btn-outline" onclick="app.testConnection()">Test Connection</button>
-      <button class="btn btn-ghost"   onclick="app.clearScriptUrl()">Use Local Storage Only</button>
+      <button class="btn btn-ghost"   onclick="app.clearScriptUrl()">Use Local Storage Only</button> -->
 
       <div class="setting-divider">Custom Categories</div>
       <div id="customCatList" style="margin-bottom:12px;"></div>
@@ -729,10 +729,18 @@ function getAdminCreds() {
   return { user: localStorage.getItem('rsAdminUser') || 'Admin', pass: localStorage.getItem('rsAdminPass') || '1234' };
 }
 
+const MY_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtU_sUCZFZ6B1BzVpzfeZ-K5T535EU_nduVFx3V5j7E4-rvnbA2Tvt4pz--iVh0aET/exec'
+// const MY_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyyAQwnSgZq36rEN4-WYRcRhEn9_eC9AhN4YGBQ9ID1PmFZSHoqGCr51fjpnyncnzs/exec'; 
 // ── DB ──
 const db = {
-  getUrl:  () => localStorage.getItem('rsScriptUrl') || '',
-  hasUrl:  () => db.getUrl().startsWith('https://script.google.com'),
+  // Paste your actual Web App URL here:
+
+
+  getUrl:  () => MY_SCRIPT_URL,
+  hasUrl:  () => true,
+
+  // getUrl:  () => localStorage.getItem('rsScriptUrl') || '',
+  // hasUrl:  () => db.getUrl().startsWith('https://script.google.com'),
   local: {
     get() { return JSON.parse(localStorage.getItem('rsData') || '{"users":[],"expenses":[],"payments":[],"auditLog":[]}'); },
     set(d) { localStorage.setItem('rsData', JSON.stringify(d)); },
@@ -812,6 +820,7 @@ const db = {
           if(!m.payments) m.payments=[];
           if(!m.auditLog) m.auditLog = local.auditLog||[];
           local.users.forEach(u=>{ if(!m.users.includes(u)) m.users.push(u); });
+          db.local.set(m);
           return m;
         }
       } catch(e) {}
@@ -1001,7 +1010,8 @@ const app = {
           <span class="settle-text"><strong>${escHtml(dName)}</strong> ${verb} <strong>${escHtml(cName)}</strong></span>
           <span class="settle-amt">₹${pay.toFixed(2)}</span>
         </div>
-        ${this.isAdmin?`<div style="margin-top:8px;"><button class="btn-sm btn-pay-sm" onclick="app.openPayModal('${escHtml(fp)}','${escHtml(tp)}',${pay.toFixed(2)})">💳 Log Payment</button></div>`:''}
+        <div style="margin-top:8px;"><button class="btn-sm btn-pay-sm" onclick="app.openPayModal('${escHtml(fp)}','${escHtml(tp)}',${pay.toFixed(2)})">💳 Log Payment</button></div>
+       
       </div>`;
       d[i].amt-=pay; c[j].amt-=pay;
       if(d[i].amt<0.01) i++;
