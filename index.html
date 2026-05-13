@@ -7,392 +7,38 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
-:root {
-  --ink: #1a1a2e;
-  --ink2: #4a4a6a;
-  --paper: #f7f5f0;
-  --card: #ffffff;
-  --border: #e8e4dc;
-  --accent: #e85d04;
-  --accent2: #f48c06;
-  --safe: #2d6a4f;
-  --safe-bg: #d8f3dc;
-  --danger: #c1121f;
-  --danger-bg: #ffe5e5;
-  --info: #1d4e89;
-  --info-bg: #dbeafe;
-  --admin: #6d28d9;
-  --admin-bg: #ede9fe;
-  --shadow: 0 2px 12px rgba(26,26,46,0.08);
-  --shadow-lg: 0 8px 32px rgba(26,26,46,0.14);
-  --r: 16px;
-}
-
+:root { --ink: #1a1a2e; --ink2: #4a4a6a; --paper: #f7f5f0; --card: #ffffff; --border: #e8e4dc; --accent: #e85d04; --accent2: #f48c06; --safe: #2d6a4f; --safe-bg: #d8f3dc; --danger: #c1121f; --danger-bg: #ffe5e5; --info: #1d4e89; --info-bg: #dbeafe; --admin: #6d28d9; --admin-bg: #ede9fe; --shadow: 0 2px 12px rgba(26,26,46,0.08); --shadow-lg: 0 8px 32px rgba(26,26,46,0.14); --r: 16px; }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-body {
-  font-family: 'Nunito', -apple-system, sans-serif;
-  background: var(--paper);
-  color: var(--ink);
-  min-height: 100vh;
-  max-width: 480px;
-  margin: 0 auto;
-  padding-bottom: 88px;
-}
-
-h1 { font-size: 20px; font-weight: 800; }
-h2 { font-size: 17px; font-weight: 800; }
-p  { font-size: 14px; color: var(--ink2); line-height: 1.5; }
-
+body { font-family: 'Nunito', -apple-system, sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; max-width: 480px; margin: 0 auto; padding-bottom: 88px; }
+h1 { font-size: 20px; font-weight: 800; } h2 { font-size: 17px; font-weight: 800; } p { font-size: 14px; color: var(--ink2); line-height: 1.5; }
 .hidden { display: none !important; }
-
-#toast {
-  position: fixed; bottom: 96px; left: 50%; transform: translateX(-50%);
-  background: var(--ink); color: #fff; padding: 10px 20px; border-radius: 99px;
-  font-size: 13px; font-weight: 700; z-index: 9999; white-space: nowrap;
-  opacity: 0; transition: opacity 0.25s; pointer-events: none;
-}
-#toast.show { opacity: 1; }
-
-#loader {
-  position: fixed; inset: 0; background: rgba(247,245,240,0.85);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 800; font-size: 14px; font-weight: 700; color: var(--ink2);
-}
-#loader.hidden { display: none; }
-.spin {
-  width: 28px; height: 28px; border: 3px solid var(--border);
-  border-top-color: var(--accent); border-radius: 50%;
-  animation: spin 0.8s linear infinite; margin-right: 12px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.modal-bg {
-  position: fixed; inset: 0; background: rgba(26,26,46,0.55);
-  z-index: 500; display: flex; align-items: center; justify-content: center;
-  padding: 20px; backdrop-filter: blur(3px);
-}
-.modal-bg.hidden { display: none !important; }
-.modal-box {
-  background: #fff; border-radius: 20px; padding: 24px;
-  width: 100%; max-width: 420px; box-shadow: var(--shadow-lg);
-  max-height: 85vh; overflow-y: auto;
-}
-.modal-title { font-size: 17px; font-weight: 800; margin-bottom: 16px; }
-
-#loginView {
-  min-height: 100vh; display: flex; flex-direction: column;
-  justify-content: center; padding: 32px 24px;
-  background: linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-}
-.login-logo { font-size: 56px; text-align: center; margin-bottom: 12px; }
-.login-title { color: #fff; font-size: 32px; font-weight: 900; text-align: center; letter-spacing: -0.5px; }
-.login-sub { color: rgba(255,255,255,0.55); text-align: center; margin: 6px 0 36px; font-size: 14px; }
-.login-card { background: #fff; border-radius: 24px; padding: 28px 24px; box-shadow: 0 24px 64px rgba(0,0,0,0.3); }
-.login-card h2 { margin-bottom: 4px; }
-.login-card p { margin-bottom: 22px; }
-
-.top-bar {
-  background: #fff; border-bottom: 1px solid var(--border);
-  padding: 0 16px; height: 56px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 50;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
-}
-.top-bar-title { font-weight: 800; font-size: 17px; }
-.icon-btn {
-  background: none; border: none; cursor: pointer;
-  width: 38px; height: 38px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; color: var(--ink); transition: background 0.15s;
-}
-.icon-btn:hover { background: var(--paper); }
-.admin-badge {
-  font-size: 10px; font-weight: 800; background: var(--admin-bg); color: var(--admin);
-  padding: 3px 8px; border-radius: 99px; letter-spacing: 0.5px;
-}
-
-.bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0; max-width: 480px; margin: 0 auto;
-  background: #fff; border-top: 1px solid var(--border);
-  display: flex; height: 64px; z-index: 45;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
-}
-.nav-item {
-  flex: 1; display: flex; flex-direction: column; align-items: center;
-  justify-content: center; cursor: pointer; gap: 3px;
-  font-size: 10px; font-weight: 800; color: var(--ink2);
-  border: none; background: none; transition: color 0.15s;
-  text-transform: uppercase; letter-spacing: 0.5px;
-}
-.nav-item .nav-icon { font-size: 20px; }
-.nav-item.active { color: var(--accent); }
-
-.overlay {
-  position: fixed; inset: 0; background: rgba(26,26,46,0.5);
-  z-index: 100; display: none; backdrop-filter: blur(2px);
-}
-.overlay.show { display: block; }
-.drawer {
-  position: fixed; top: 0; left: -300px; width: 300px; height: 100%;
-  background: #fff; z-index: 101;
-  transition: left 0.28s cubic-bezier(0.4,0,0.2,1);
-  display: flex; flex-direction: column; box-shadow: var(--shadow-lg);
-}
-.drawer.open { left: 0; }
-.drawer-head {
-  background: linear-gradient(135deg, #1a1a2e, #0f3460);
-  color: #fff; padding: 28px 20px 22px;
-}
-.drawer-head .name { font-size: 18px; font-weight: 900; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
-.drawer-head .sub  { font-size: 12px; opacity: 0.6; }
-.drawer-item {
-  display: flex; align-items: center; gap: 14px;
-  padding: 15px 20px; cursor: pointer; font-size: 15px; font-weight: 700;
-  color: var(--ink); border-bottom: 1px solid var(--border); transition: background 0.1s;
-}
-.drawer-item:hover { background: var(--paper); }
-.drawer-item .di-icon { font-size: 20px; width: 28px; text-align: center; }
-.drawer-item.danger { color: var(--danger); }
-.drawer-item.admin-item { color: var(--admin); }
-.drawer-sep { height: 8px; background: var(--paper); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.drawer-footer { margin-top: auto; padding: 14px 20px; }
-.sync-pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700;
-}
-.sync-pill.local  { background: #fef3c7; color: #92400e; }
-.sync-pill.sheets { background: var(--safe-bg); color: var(--safe); }
-.sync-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-
-.page-hdr {
-  background: #fff; padding: 0 16px; height: 50px;
-  display: flex; align-items: center; gap: 10px;
-  border-bottom: 1px solid var(--border);
-  position: sticky; top: 56px; z-index: 40;
-}
-.back-btn {
-  background: none; border: none; cursor: pointer;
-  font-size: 22px; color: var(--accent); width: 32px;
-  display: flex; align-items: center; justify-content: center;
-}
-.page-hdr-title { font-size: 16px; font-weight: 800; }
-
-.card {
-  background: var(--card); border-radius: var(--r);
-  padding: 20px; margin: 12px 14px;
-  box-shadow: var(--shadow); border: 1px solid var(--border);
-}
-.card-label {
-  font-size: 11px; font-weight: 800; color: var(--ink2);
-  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
-}
-
-.balance-hero {
-  margin: 14px 14px 0;
-  border-radius: 20px; padding: 24px 20px; text-align: center;
-  border: 2px solid transparent;
-}
-.balance-hero.owe  { background: var(--danger-bg); border-color: #fca5a5; }
-.balance-hero.get  { background: var(--safe-bg);   border-color: #86efac; }
-.balance-hero.even { background: var(--info-bg);   border-color: #93c5fd; }
-.balance-hero .lbl { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-.balance-hero.owe  .lbl { color: var(--danger); }
-.balance-hero.get  .lbl { color: var(--safe); }
-.balance-hero.even .lbl { color: var(--info); }
-.balance-hero .amt { font-size: 40px; font-weight: 900; margin-top: 6px; letter-spacing: -1px; }
-.balance-hero.owe  .amt { color: var(--danger); }
-.balance-hero.get  .amt { color: var(--safe); }
-.balance-hero.even .amt { color: var(--info); font-size: 26px; }
-
-.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 14px; }
-.stat-box { background: #fff; border-radius: 14px; padding: 14px 16px; border: 1px solid var(--border); box-shadow: var(--shadow); }
-.stat-box .sl { font-size: 11px; font-weight: 800; color: var(--ink2); text-transform: uppercase; letter-spacing: 0.8px; }
-.stat-box .sv { font-size: 22px; font-weight: 900; margin-top: 4px; letter-spacing: -0.5px; }
-
-.chart-row { display: flex; align-items: center; gap: 18px; }
-.donut-wrap { position: relative; width: 124px; height: 124px; flex-shrink: 0; }
-.donut-ring { width: 124px; height: 124px; border-radius: 50%; }
-.donut-hole {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-  width: 68px; height: 68px; background: #fff; border-radius: 50%;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.04);
-}
-.donut-hole .dh-amt { font-size: 13px; font-weight: 900; color: var(--ink); }
-.donut-hole .dh-lbl { font-size: 9px; font-weight: 700; color: var(--ink2); text-transform: uppercase; }
-.legend { flex: 1; display: flex; flex-direction: column; gap: 7px; }
-.leg-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-.leg-dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
-.leg-name { color: var(--ink2); font-weight: 600; flex: 1; }
-.leg-val { font-weight: 800; font-size: 12px; }
-
-.settle-item {
-  border-radius: 12px; margin-bottom: 8px; font-size: 13px;
-  padding: 11px 14px;
-}
-.settle-item.mine   { background: var(--danger-bg); }
-.settle-item.theirs { background: var(--safe-bg); }
-.settle-item.other  { background: var(--paper); border: 1px solid var(--border); }
-.settle-row { display: flex; justify-content: space-between; align-items: center; }
-.settle-text strong { font-weight: 800; }
-.settle-amt { font-size: 16px; font-weight: 900; flex-shrink: 0; }
-.settle-item.mine   .settle-amt { color: var(--danger); }
-.settle-item.theirs .settle-amt { color: var(--safe); }
-
-.fab {
-  position: fixed; bottom: 74px; right: 18px;
-  width: 56px; height: 56px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color: #fff; border: none; border-radius: 50%;
-  font-size: 28px; cursor: pointer;
-  box-shadow: 0 6px 20px rgba(232,93,4,0.4);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 40; transition: transform 0.18s; line-height: 1;
-}
-.fab:active { transform: scale(0.93); }
-
-.form-group { margin-bottom: 16px; }
-.form-label { display: block; font-size: 12px; font-weight: 800; color: var(--ink2); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 7px; }
-input[type=text], input[type=number], input[type=password], select, textarea {
-  width: 100%; padding: 12px 14px; border: 2px solid var(--border);
-  border-radius: 12px; font-size: 15px; font-family: 'Nunito', sans-serif;
-  font-weight: 600; color: var(--ink); background: #fff;
-  transition: border-color 0.15s; -webkit-appearance: none; appearance: none;
-}
-input:focus, select:focus { outline: none; border-color: var(--accent); }
-::placeholder { color: #c0bdb5; }
-
-.split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.split-check {
-  display: flex; align-items: center; gap: 9px;
-  padding: 10px 12px; border-radius: 10px; cursor: pointer;
-  border: 2px solid var(--border); font-size: 13px; font-weight: 700;
-  transition: all 0.15s; user-select: none;
-}
-.split-check.on { border-color: var(--accent); background: #fff3ee; color: var(--accent); }
-.split-check input { display: none; }
-.split-check .chk {
-  width: 18px; height: 18px; border-radius: 5px;
-  border: 2px solid var(--border); background: #fff;
-  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-  font-size: 11px; color: transparent; transition: all 0.15s;
-}
-.split-check.on .chk { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-.btn {
-  display: block; width: 100%; padding: 14px; border: none; border-radius: 12px;
-  font-size: 15px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif;
-  transition: all 0.15s; letter-spacing: 0.2px;
-}
-.btn:active { transform: scale(0.98); }
-.btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; box-shadow: 0 4px 14px rgba(232,93,4,0.3); }
-.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-.btn-outline { background: #fff; color: var(--accent); border: 2px solid var(--accent); margin-top: 10px; }
-.btn-ghost   { background: var(--paper); color: var(--ink2); margin-top: 10px; }
-.btn-danger  { background: var(--danger-bg); color: var(--danger); border: 2px solid #fca5a5; margin-top: 10px; }
-.btn-admin   { background: var(--admin-bg); color: var(--admin); border: 2px solid #c4b5fd; margin-top: 10px; }
-.btn-sm {
-  padding: 7px 14px; border-radius: 9px; font-size: 12px; font-weight: 800;
-  border: none; cursor: pointer; font-family: 'Nunito', sans-serif; transition: all 0.15s;
-}
-.btn-sm:active { transform: scale(0.97); }
-.btn-pay-sm  { background: var(--safe-bg);   color: var(--safe); }
-.btn-edit-sm { background: var(--info-bg);   color: var(--info); }
-.btn-del-sm  { background: var(--danger-bg); color: var(--danger); }
-
-.tx-wrap { padding: 12px 14px 0; }
-.tx-item {
-  background: #fff; border: 1px solid var(--border); border-radius: 14px;
-  padding: 14px; margin-bottom: 10px; box-shadow: var(--shadow);
-}
-.tx-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-.tx-desc { font-weight: 800; font-size: 15px; line-height: 1.3; }
-.tx-amt { font-weight: 900; font-size: 18px; color: var(--accent); flex-shrink: 0; }
-.tx-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink2); margin-top: 6px; font-weight: 600; flex-wrap: wrap; gap: 4px; }
-.tx-cat { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 99px; font-size: 11px; font-weight: 800; margin-top: 6px; }
-.tx-split { margin-top: 8px; padding: 8px 10px; background: var(--paper); border-radius: 8px; font-size: 11px; color: var(--ink2); font-weight: 600; line-height: 1.6; }
-.tx-actions { display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
-.tx-actions button {
-  flex: 1; padding: 8px 0; font-size: 12px; font-weight: 800;
-  border: none; border-radius: 9px; cursor: pointer; font-family: 'Nunito', sans-serif; transition: all 0.15s;
-}
-.tx-actions button:active { transform: scale(0.97); }
-.tx-added-by { text-align: center; font-size: 11px; color: var(--ink2); margin-top: 8px; font-weight: 600; }
-
-.log-item {
-  background: #fff; border: 1px solid var(--border); border-radius: 12px;
-  padding: 12px 14px; margin-bottom: 8px;
-}
-.log-item .log-action { font-weight: 800; font-size: 13px; word-break: break-word; }
-.log-item .log-meta { color: var(--ink2); margin-top: 3px; font-size: 11px; font-weight: 600; }
-.log-badge {
-  display: inline-block; padding: 2px 8px; border-radius: 99px;
-  font-size: 10px; font-weight: 800; margin-right: 6px;
-}
-.log-badge.add    { background: var(--safe-bg);   color: var(--safe); }
-.log-badge.edit   { background: var(--info-bg);   color: var(--info); }
-.log-badge.delete { background: var(--danger-bg); color: var(--danger); }
-.log-badge.pay    { background: var(--admin-bg);  color: var(--admin); }
-
-.member-item {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 0; border-bottom: 1px solid var(--border);
-}
-.member-item:last-child { border-bottom: none; }
-.member-avatar {
-  width: 36px; height: 36px; border-radius: 50%; background: var(--info-bg);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 900; color: var(--info); flex-shrink: 0;
-}
-.member-name { font-weight: 800; font-size: 14px; }
-.member-sub  { font-size: 11px; color: var(--ink2); font-weight: 600; }
-.member-actions { display: flex; gap: 6px; }
-
-.settings-info { background: var(--info-bg); border: 1px solid #93c5fd; border-radius: 12px; padding: 14px; margin-bottom: 16px; font-size: 13px; color: var(--info); font-weight: 600; line-height: 1.6; }
-.settings-info strong { font-weight: 900; }
-.setting-divider { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--ink2); margin: 20px 0 10px; }
-
-.icon-pick { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-.icon-opt {
-  width: 38px; height: 38px; border-radius: 10px; border: 2px solid var(--border);
-  display: flex; align-items: center; justify-content: center; font-size: 18px;
-  cursor: pointer; transition: all 0.15s;
-}
-.icon-opt.sel { border-color: var(--accent); background: #fff3ee; }
-.color-pick { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-.color-opt {
-  width: 28px; height: 28px; border-radius: 8px; cursor: pointer;
-  border: 3px solid transparent; transition: all 0.15s;
-}
-.color-opt.sel { border-color: var(--ink); transform: scale(1.1); }
-.cat-chip {
-  display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px;
-  border-radius: 99px; font-size: 12px; font-weight: 800; margin: 3px;
-}
-.cat-chip .rm { cursor: pointer; font-size: 14px; opacity: 0.6; }
-.cat-chip .rm:hover { opacity: 1; }
-
-.empty-state { text-align: center; padding: 40px 20px; color: var(--ink2); }
-.empty-state .ei { font-size: 44px; margin-bottom: 10px; }
-.empty-state .et { font-size: 15px; font-weight: 800; margin-bottom: 4px; color: var(--ink); }
-.empty-state .es { font-size: 13px; }
-
-.pay-item {
-  background: var(--admin-bg); border: 1px solid #c4b5fd; border-radius: 12px;
-  padding: 10px 14px; margin-bottom: 8px;
-}
-.pay-item .pay-desc { font-weight: 800; color: var(--admin); font-size: 13px; }
-.pay-item .pay-meta { font-size: 11px; color: var(--ink2); margin-top: 3px; font-weight: 600; }
-
-.admin-tab-bar { display: flex; margin: 12px 14px 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
-.admin-tab {
-  flex: 1; padding: 10px 6px; font-size: 12px; font-weight: 800;
-  border: none; cursor: pointer; font-family: 'Nunito', sans-serif;
-  background: var(--paper); color: var(--ink2); transition: all 0.15s; text-align: center;
-}
-.admin-tab:not(:last-child) { border-right: 1px solid var(--border); }
-.admin-tab.active { background: var(--accent); color: #fff; }
+#toast { position: fixed; bottom: 96px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 10px 20px; border-radius: 99px; font-size: 13px; font-weight: 700; z-index: 9999; white-space: nowrap; opacity: 0; transition: opacity 0.25s; pointer-events: none; } #toast.show { opacity: 1; }
+#loader { position: fixed; inset: 0; background: rgba(247,245,240,0.85); display: flex; align-items: center; justify-content: center; z-index: 800; font-size: 14px; font-weight: 700; color: var(--ink2); } #loader.hidden { display: none; }
+.spin { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 12px; } @keyframes spin { to { transform: rotate(360deg); } }
+.modal-bg { position: fixed; inset: 0; background: rgba(26,26,46,0.55); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(3px); } .modal-bg.hidden { display: none !important; }
+.modal-box { background: #fff; border-radius: 20px; padding: 24px; width: 100%; max-width: 420px; box-shadow: var(--shadow-lg); max-height: 85vh; overflow-y: auto; } .modal-title { font-size: 17px; font-weight: 800; margin-bottom: 16px; }
+#loginView { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 32px 24px; background: linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); } .login-logo { font-size: 56px; text-align: center; margin-bottom: 12px; } .login-title { color: #fff; font-size: 32px; font-weight: 900; text-align: center; letter-spacing: -0.5px; } .login-sub { color: rgba(255,255,255,0.55); text-align: center; margin: 6px 0 36px; font-size: 14px; } .login-card { background: #fff; border-radius: 24px; padding: 28px 24px; box-shadow: 0 24px 64px rgba(0,0,0,0.3); } .login-card h2 { margin-bottom: 4px; } .login-card p { margin-bottom: 22px; }
+.top-bar { background: #fff; border-bottom: 1px solid var(--border); padding: 0 16px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 6px rgba(0,0,0,0.04); } .top-bar-title { font-weight: 800; font-size: 17px; } .icon-btn { background: none; border: none; cursor: pointer; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--ink); transition: background 0.15s; } .icon-btn:hover { background: var(--paper); } .admin-badge { font-size: 10px; font-weight: 800; background: var(--admin-bg); color: var(--admin); padding: 3px 8px; border-radius: 99px; letter-spacing: 0.5px; }
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; max-width: 480px; margin: 0 auto; background: #fff; border-top: 1px solid var(--border); display: flex; height: 64px; z-index: 45; box-shadow: 0 -2px 10px rgba(0,0,0,0.06); } .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; gap: 3px; font-size: 10px; font-weight: 800; color: var(--ink2); border: none; background: none; transition: color 0.15s; text-transform: uppercase; letter-spacing: 0.5px; } .nav-item .nav-icon { font-size: 20px; } .nav-item.active { color: var(--accent); }
+.overlay { position: fixed; inset: 0; background: rgba(26,26,46,0.5); z-index: 100; display: none; backdrop-filter: blur(2px); } .overlay.show { display: block; } .drawer { position: fixed; top: 0; left: -300px; width: 300px; height: 100%; background: #fff; z-index: 101; transition: left 0.28s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; box-shadow: var(--shadow-lg); } .drawer.open { left: 0; } .drawer-head { background: linear-gradient(135deg, #1a1a2e, #0f3460); color: #fff; padding: 28px 20px 22px; } .drawer-head .name { font-size: 18px; font-weight: 900; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; } .drawer-head .sub { font-size: 12px; opacity: 0.6; } .drawer-item { display: flex; align-items: center; gap: 14px; padding: 15px 20px; cursor: pointer; font-size: 15px; font-weight: 700; color: var(--ink); border-bottom: 1px solid var(--border); transition: background 0.1s; } .drawer-item:hover { background: var(--paper); } .drawer-item .di-icon { font-size: 20px; width: 28px; text-align: center; } .drawer-item.danger { color: var(--danger); } .drawer-item.admin-item { color: var(--admin); } .drawer-sep { height: 8px; background: var(--paper); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); } .drawer-footer { margin-top: auto; padding: 14px 20px; } .sync-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; } .sync-pill.local { background: #fef3c7; color: #92400e; } .sync-pill.sheets { background: var(--safe-bg); color: var(--safe); } .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.page-hdr { background: #fff; padding: 0 16px; height: 50px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); position: sticky; top: 56px; z-index: 40; } .back-btn { background: none; border: none; cursor: pointer; font-size: 22px; color: var(--accent); width: 32px; display: flex; align-items: center; justify-content: center; } .page-hdr-title { font-size: 16px; font-weight: 800; }
+.card { background: var(--card); border-radius: var(--r); padding: 20px; margin: 12px 14px; box-shadow: var(--shadow); border: 1px solid var(--border); } .card-label { font-size: 11px; font-weight: 800; color: var(--ink2); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+.balance-hero { margin: 14px 14px 0; border-radius: 20px; padding: 24px 20px; text-align: center; border: 2px solid transparent; } .balance-hero.owe { background: var(--danger-bg); border-color: #fca5a5; } .balance-hero.get { background: var(--safe-bg); border-color: #86efac; } .balance-hero.even { background: var(--info-bg); border-color: #93c5fd; } .balance-hero .lbl { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; } .balance-hero.owe .lbl { color: var(--danger); } .balance-hero.get .lbl { color: var(--safe); } .balance-hero.even .lbl { color: var(--info); } .balance-hero .amt { font-size: 40px; font-weight: 900; margin-top: 6px; letter-spacing: -1px; } .balance-hero.owe .amt { color: var(--danger); } .balance-hero.get .amt { color: var(--safe); } .balance-hero.even .amt { color: var(--info); font-size: 26px; }
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 14px; } .stat-box { background: #fff; border-radius: 14px; padding: 14px 16px; border: 1px solid var(--border); box-shadow: var(--shadow); } .stat-box .sl { font-size: 11px; font-weight: 800; color: var(--ink2); text-transform: uppercase; letter-spacing: 0.8px; } .stat-box .sv { font-size: 22px; font-weight: 900; margin-top: 4px; letter-spacing: -0.5px; }
+.chart-row { display: flex; align-items: center; gap: 18px; } .donut-wrap { position: relative; width: 124px; height: 124px; flex-shrink: 0; } .donut-ring { width: 124px; height: 124px; border-radius: 50%; } .donut-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 68px; height: 68px; background: #fff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 0 0 1px rgba(0,0,0,0.04); } .donut-hole .dh-amt { font-size: 13px; font-weight: 900; color: var(--ink); } .donut-hole .dh-lbl { font-size: 9px; font-weight: 700; color: var(--ink2); text-transform: uppercase; } .legend { flex: 1; display: flex; flex-direction: column; gap: 7px; } .leg-item { display: flex; align-items: center; gap: 8px; font-size: 12px; } .leg-dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; } .leg-name { color: var(--ink2); font-weight: 600; flex: 1; } .leg-val { font-weight: 800; font-size: 12px; }
+.settle-item { border-radius: 12px; margin-bottom: 8px; font-size: 13px; padding: 11px 14px; } .settle-item.mine { background: var(--danger-bg); } .settle-item.theirs { background: var(--safe-bg); } .settle-item.other { background: var(--paper); border: 1px solid var(--border); } .settle-row { display: flex; justify-content: space-between; align-items: center; } .settle-text strong { font-weight: 800; } .settle-amt { font-size: 16px; font-weight: 900; flex-shrink: 0; } .settle-item.mine .settle-amt { color: var(--danger); } .settle-item.theirs .settle-amt { color: var(--safe); }
+.fab { position: fixed; bottom: 74px; right: 18px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border: none; border-radius: 50%; font-size: 28px; cursor: pointer; box-shadow: 0 6px 20px rgba(232,93,4,0.4); display: flex; align-items: center; justify-content: center; z-index: 40; transition: transform 0.18s; line-height: 1; } .fab:active { transform: scale(0.93); }
+.form-group { margin-bottom: 16px; } .form-label { display: block; font-size: 12px; font-weight: 800; color: var(--ink2); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 7px; } input[type=text], input[type=number], input[type=password], select, textarea { width: 100%; padding: 12px 14px; border: 2px solid var(--border); border-radius: 12px; font-size: 15px; font-family: 'Nunito', sans-serif; font-weight: 600; color: var(--ink); background: #fff; transition: border-color 0.15s; -webkit-appearance: none; appearance: none; } input:focus, select:focus { outline: none; border-color: var(--accent); } ::placeholder { color: #c0bdb5; }
+.split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } .split-check { display: flex; align-items: center; gap: 9px; padding: 10px 12px; border-radius: 10px; cursor: pointer; border: 2px solid var(--border); font-size: 13px; font-weight: 700; transition: all 0.15s; user-select: none; } .split-check.on { border-color: var(--accent); background: #fff3ee; color: var(--accent); } .split-check input { display: none; } .split-check .chk { width: 18px; height: 18px; border-radius: 5px; border: 2px solid var(--border); background: #fff; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; color: transparent; transition: all 0.15s; } .split-check.on .chk { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; transition: all 0.15s; letter-spacing: 0.2px; } .btn:active { transform: scale(0.98); } .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; box-shadow: 0 4px 14px rgba(232,93,4,0.3); } .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; } .btn-outline { background: #fff; color: var(--accent); border: 2px solid var(--accent); margin-top: 10px; } .btn-ghost { background: var(--paper); color: var(--ink2); margin-top: 10px; } .btn-danger { background: var(--danger-bg); color: var(--danger); border: 2px solid #fca5a5; margin-top: 10px; } .btn-admin { background: var(--admin-bg); color: var(--admin); border: 2px solid #c4b5fd; margin-top: 10px; } .btn-sm { padding: 7px 14px; border-radius: 9px; font-size: 12px; font-weight: 800; border: none; cursor: pointer; font-family: 'Nunito', sans-serif; transition: all 0.15s; } .btn-sm:active { transform: scale(0.97); } .btn-pay-sm { background: var(--safe-bg); color: var(--safe); } .btn-edit-sm { background: var(--info-bg); color: var(--info); } .btn-del-sm { background: var(--danger-bg); color: var(--danger); }
+.tx-wrap { padding: 12px 14px 0; } .tx-item { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 10px; box-shadow: var(--shadow); } .tx-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; } .tx-desc { font-weight: 800; font-size: 15px; line-height: 1.3; } .tx-amt { font-weight: 900; font-size: 18px; color: var(--accent); flex-shrink: 0; } .tx-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink2); margin-top: 6px; font-weight: 600; flex-wrap: wrap; gap: 4px; } .tx-cat { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 99px; font-size: 11px; font-weight: 800; margin-top: 6px; } .tx-split { margin-top: 8px; padding: 8px 10px; background: var(--paper); border-radius: 8px; font-size: 11px; color: var(--ink2); font-weight: 600; line-height: 1.6; } .tx-actions { display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); } .tx-actions button { flex: 1; padding: 8px 0; font-size: 12px; font-weight: 800; border: none; border-radius: 9px; cursor: pointer; font-family: 'Nunito', sans-serif; transition: all 0.15s; } .tx-actions button:active { transform: scale(0.97); } .tx-added-by { text-align: center; font-size: 11px; color: var(--ink2); margin-top: 8px; font-weight: 600; }
+.log-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; } .log-item .log-action { font-weight: 800; font-size: 13px; word-break: break-word; } .log-item .log-meta { color: var(--ink2); margin-top: 3px; font-size: 11px; font-weight: 600; } .log-badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 10px; font-weight: 800; margin-right: 6px; } .log-badge.add { background: var(--safe-bg); color: var(--safe); } .log-badge.edit { background: var(--info-bg); color: var(--info); } .log-badge.delete { background: var(--danger-bg); color: var(--danger); } .log-badge.pay { background: var(--admin-bg); color: var(--admin); }
+.member-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); } .member-item:last-child { border-bottom: none; } .member-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--info-bg); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: var(--info); flex-shrink: 0; } .member-name { font-weight: 800; font-size: 14px; } .member-sub { font-size: 11px; color: var(--ink2); font-weight: 600; } .member-actions { display: flex; gap: 6px; }
+.settings-info { background: var(--info-bg); border: 1px solid #93c5fd; border-radius: 12px; padding: 14px; margin-bottom: 16px; font-size: 13px; color: var(--info); font-weight: 600; line-height: 1.6; } .settings-info strong { font-weight: 900; } .setting-divider { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--ink2); margin: 20px 0 10px; }
+.icon-pick { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; } .icon-opt { width: 38px; height: 38px; border-radius: 10px; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; transition: all 0.15s; } .icon-opt.sel { border-color: var(--accent); background: #fff3ee; } .color-pick { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; } .color-opt { width: 28px; height: 28px; border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: all 0.15s; } .color-opt.sel { border-color: var(--ink); transform: scale(1.1); } .cat-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 99px; font-size: 12px; font-weight: 800; margin: 3px; } .cat-chip .rm { cursor: pointer; font-size: 14px; opacity: 0.6; } .cat-chip .rm:hover { opacity: 1; }
+.empty-state { text-align: center; padding: 40px 20px; color: var(--ink2); } .empty-state .ei { font-size: 44px; margin-bottom: 10px; } .empty-state .et { font-size: 15px; font-weight: 800; margin-bottom: 4px; color: var(--ink); } .empty-state .es { font-size: 13px; }
+.pay-item { background: var(--admin-bg); border: 1px solid #c4b5fd; border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; } .pay-item .pay-desc { font-weight: 800; color: var(--admin); font-size: 13px; } .pay-item .pay-meta { font-size: 11px; color: var(--ink2); margin-top: 3px; font-weight: 600; }
+.admin-tab-bar { display: flex; margin: 12px 14px 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); } .admin-tab { flex: 1; padding: 10px 6px; font-size: 12px; font-weight: 800; border: none; cursor: pointer; font-family: 'Nunito', sans-serif; background: var(--paper); color: var(--ink2); transition: all 0.15s; text-align: center; } .admin-tab:not(:last-child) { border-right: 1px solid var(--border); } .admin-tab.active { background: var(--accent); color: #fff; }
 </style>
 </head>
 <body>
@@ -402,15 +48,31 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
 
 <div class="modal-bg hidden" id="adminPassModal">
   <div class="modal-box">
-    <div class="modal-title">🔐 Admin Login</div>
-    <p style="margin-bottom:16px;font-size:13px;">Enter the admin password to continue.</p>
+    <div class="modal-title">🛡️ Admin Access</div>
+    <p style="margin-bottom:16px;font-size:13px;">Enter the master password to manage users and settings.</p>
     <div class="form-group">
       <label class="form-label">Password</label>
       <input type="password" id="adminPassInput" placeholder="Enter admin password"
         onkeypress="if(event.key==='Enter') app.verifyAdminPass()">
     </div>
-    <button class="btn btn-primary" onclick="app.verifyAdminPass()">Unlock</button>
+    <button class="btn btn-primary" onclick="app.verifyAdminPass()">Unlock Panel</button>
     <button class="btn btn-ghost" onclick="app.cancelAdminPass()">Cancel</button>
+  </div>
+</div>
+
+<div class="modal-bg hidden" id="adminCredsModal">
+  <div class="modal-box">
+    <div class="modal-title">🔑 Change Admin Password</div>
+    <div class="form-group">
+      <label class="form-label">New Password</label>
+      <input type="password" id="newAdminPass" placeholder="Min 4 characters">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Confirm Password</label>
+      <input type="password" id="newAdminPass2" placeholder="Repeat password">
+    </div>
+    <button class="btn btn-primary" onclick="app.saveAdminCreds()">Save Password</button>
+    <button class="btn btn-ghost" onclick="hideModal('adminCredsModal')">Cancel</button>
   </div>
 </div>
 
@@ -461,39 +123,21 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
   </div>
 </div>
 
-<div class="modal-bg hidden" id="adminCredsModal">
-  <div class="modal-box">
-    <div class="modal-title">🔑 Change Admin Credentials</div>
-    <div class="form-group">
-      <label class="form-label">New Admin Username</label>
-      <input type="text" id="newAdminUser" placeholder="Username" maxlength="30">
-    </div>
-    <div class="form-group">
-      <label class="form-label">New Password</label>
-      <input type="password" id="newAdminPass" placeholder="Min 4 characters">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Confirm Password</label>
-      <input type="password" id="newAdminPass2" placeholder="Repeat password">
-    </div>
-    <button class="btn btn-primary" onclick="app.saveAdminCreds()">Save Credentials</button>
-    <button class="btn btn-ghost" onclick="hideModal('adminCredsModal')">Cancel</button>
-  </div>
-</div>
-
 <div id="loginView">
   <div class="login-logo">🏠</div>
   <div class="login-title">RoomieSplit</div>
   <div class="login-sub">Fair expenses, zero drama.</div>
   <div class="login-card">
     <h2>Welcome!</h2>
-    <p>Enter your name to join or rejoin the group.</p>
+    <p>Select your name to access the room.</p>
     <div class="form-group" style="margin-top:18px;">
       <label class="form-label">Your Name</label>
-      <input type="text" id="loginName" placeholder="e.g. Alice" autocomplete="off" maxlength="30"
-        onkeypress="if(event.key==='Enter') app.login()">
+      <select id="loginNameSelect">
+        <option value="">Loading users...</option>
+      </select>
     </div>
     <button class="btn btn-primary" onclick="app.login()">Enter →</button>
+    <button class="btn btn-ghost" onclick="app.openAdminLogin()" style="margin-top: 16px;">Admin Login 🛡️</button>
   </div>
 </div>
 
@@ -612,9 +256,8 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
       <button class="btn btn-outline" onclick="app.openCatModal()">+ Add Category</button>
 
       <div class="setting-divider" id="adminCredsSection" style="display:none;">Admin Security</div>
-      <button class="btn btn-admin hidden" id="changeCredsBtn"
-        onclick="showModal('adminCredsModal');el('newAdminUser').value=app.getAdminUser();el('newAdminPass').value='';el('newAdminPass2').value='';">
-        🔑 Change Admin Credentials
+      <button class="btn btn-admin hidden" id="changeCredsBtn" onclick="showModal('adminCredsModal'); el('newAdminPass').value=''; el('newAdminPass2').value='';">
+        🔑 Change Admin Password
       </button>
 
       <div class="setting-divider">Danger Zone</div>
@@ -636,6 +279,9 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
 
     <div id="adminTab-members" class="card">
       <div class="card-label">Room Members</div>
+      <div class="settings-info">
+        Only people added here will be able to select their name and log into the app.
+      </div>
       <div id="adminMemberList"></div>
       <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
         <div class="form-group">
@@ -649,9 +295,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
 
     <div id="adminTab-sync" class="card hidden">
       <div class="card-label">Google Sheets Sync</div>
-      <div class="settings-info">
-        Only the Admin can configure the Google Sheets connection from here.
-      </div>
       <div class="form-group">
         <label class="form-label">Apps Script Web App URL</label>
         <input type="text" id="adminScriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
@@ -676,11 +319,9 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
 
 </div><script>
 const BUILT_IN_CATS = {
-  Groceries: { color:'#10b981', icon:'🛒' },
-  Rent:      { color:'#6366f1', icon:'🏠' },
-  Utilities: { color:'#f59e0b', icon:'⚡' },
-  Dining:    { color:'#ef4444', icon:'🍔' },
-  Other:     { color:'#8b5cf6', icon:'🏷️' },
+  Groceries: { color:'#10b981', icon:'🛒' }, Rent: { color:'#6366f1', icon:'🏠' },
+  Utilities: { color:'#f59e0b', icon:'⚡' }, Dining: { color:'#ef4444', icon:'🍔' },
+  Other: { color:'#8b5cf6', icon:'🏷️' },
 };
 const ICON_OPTS  = ['⛽','🚿','🧹','📦','🎬','🎮','🐾','🏋️','💊','🧴','📱','🛵','🧺','☕','🍕','🌿','🏖️','🎁'];
 const COLOR_OPTS = ['#10b981','#6366f1','#ef4444','#f59e0b','#8b5cf6','#06b6d4','#ec4899','#f97316','#84cc16','#0ea5e9','#a855f7','#14b8a6'];
@@ -689,17 +330,11 @@ let _selIcon = ICON_OPTS[0], _selColor = COLOR_OPTS[0];
 function getCAT() {
   return { ...BUILT_IN_CATS, ...JSON.parse(localStorage.getItem('rsCustomCats') || '{}') };
 }
-function getAdminCreds() {
-  return { user: localStorage.getItem('rsAdminUser') || 'Admin', pass: localStorage.getItem('rsAdminPass') || '1234' };
-}
 
-// ── HARDCODED URL ──
-const MY_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtU_sUCZFZ6B1BzVpzfeZ-K5T535EU_nduVFx3V5j7E4-rvnbA2Tvt4pz--iVh0aET/exec';
-
-// ── DB ──
+// ── LOCAL STORAGE URL (Paste it in the Admin Sync tab!) ──
 const db = {
-  getUrl:  () => MY_SCRIPT_URL,
-  hasUrl:  () => true,
+  getUrl:  () => localStorage.getItem('rsScriptUrl') || '',
+  hasUrl:  () => db.getUrl().startsWith('https://script.google.com'),
   local: {
     get() { return JSON.parse(localStorage.getItem('rsData') || '{"users":[],"expenses":[],"payments":[],"auditLog":[]}'); },
     set(d) { localStorage.setItem('rsData', JSON.stringify(d)); },
@@ -780,11 +415,18 @@ const db = {
           if(!m.auditLog) m.auditLog = local.auditLog||[];
           local.users.forEach(u=>{ if(!m.users.includes(u)) m.users.push(u); });
           
-          // NEW: Sync cloud settings/budgets to local storage
+          // ── SYNC SETTINGS FROM CLOUD ──
           if(m.settings && Object.keys(m.settings).length > 0) {
-            localStorage.setItem('rsCustomCats', JSON.stringify(m.settings));
+            // Support both old JSON format and the new format
+            if(m.settings.categories) {
+              localStorage.setItem('rsCustomCats', JSON.stringify(m.settings.categories));
+            } else {
+              localStorage.setItem('rsCustomCats', JSON.stringify(m.settings));
+            }
+            if(m.settings.adminPass) {
+              localStorage.setItem('rsAdminPass', m.settings.adminPass);
+            }
           }
-          
           db.local.set(m);
           return m;
         }
@@ -796,6 +438,8 @@ const db = {
     if(db.hasUrl()) try{ await db.sheets.post({action:'updateSettings', settings: settingsObj}); }catch(e){}
   },
   async addUser(n)        { db.local.addUser(n); if(db.hasUrl()) try{ await db.sheets.post({action:'addUser',name:n}); }catch(e){} },
+  async deleteUser(n)     { db.local.removeUser(n); if(db.hasUrl()) try{ await db.sheets.post({action:'deleteUser',name:n}); }catch(e){} },
+  async renameUser(o, n)  { db.local.renameUser(o, n); if(db.hasUrl()) try{ await db.sheets.post({action:'renameUser', oldName:o, newName:n}); }catch(e){} },
   async addExpense(exp)   { const s=db.local.addExpense({...exp}); if(db.hasUrl()) try{ await db.sheets.post({action:'addExpense',expense:s}); }catch(e){} return s; },
   async updateExpense(id,u){ db.local.updateExpense(id,u); if(db.hasUrl()) try{ await db.sheets.post({action:'updateExpense',id,expense:u}); }catch(e){} },
   async deleteExpense(id) { db.local.deleteExpense(id); if(db.hasUrl()) try{ await db.sheets.post({action:'deleteExpense',id}); }catch(e){} },
@@ -804,10 +448,9 @@ const db = {
 
 // ── APP ──
 const app = {
-  user:null, isAdmin:false, editId:null,
-  _adminPassCb:null, _payData:null, _logFilter:'all',
+  user:null, isAdmin:false, editId:null, _payData:null, _logFilter:'all',
 
-  init() {
+  async init() {
     const u = localStorage.getItem('rsUser');
     if(u) {
       this.user    = u;
@@ -819,49 +462,62 @@ const app = {
     } else {
       el('loginView').classList.remove('hidden');
       el('appShell').classList.add('hidden');
+      try { await db.getAll(); } catch(e){}
+      this.populateLoginUsers();
     }
     this.updateSyncBadge();
   },
 
-  getAdminUser() { return getAdminCreds().user; },
-
-  login() {
-    const name = el('loginName').value.trim();
-    if(!name||name.length<2) return toast('Enter your name (min 2 chars)');
-    const creds = getAdminCreds();
-    if(name.toLowerCase()===creds.user.toLowerCase()) {
-      this._adminPassCb = ()=>this._doLogin(name,true);
-      showModal('adminPassModal');
-      setTimeout(()=>el('adminPassInput').focus(),100);
+  populateLoginUsers() {
+    const select = el('loginNameSelect');
+    const users = db.local.get().users;
+    if(users.length === 0) {
+      select.innerHTML = '<option value="">No users yet. Admin must log in to add.</option>';
     } else {
-      this._doLogin(name,false);
+      select.innerHTML = '<option value="">-- Choose your name --</option>' + 
+        users.map(u => `<option value="${escHtml(u)}">${escHtml(u)}</option>`).join('');
     }
   },
 
-  _doLogin(name,asAdmin) {
-    this.user=name; this.isAdmin=asAdmin;
-    localStorage.setItem('rsUser',name);
-    localStorage.setItem('rsIsAdmin',asAdmin?'1':'0');
-    db.addUser(name);
-    el('loginView').classList.add('hidden');
-    el('appShell').classList.remove('hidden');
-    this.updateDrawer();
-    this.nav('home');
-    toast(asAdmin?`Welcome Admin! 🛡️`:`Welcome, ${name}! 👋`);
+  login() {
+    const name = el('loginNameSelect').value;
+    if(!name) return toast('Please select your name');
+    this._doLogin(name, false);
+  },
+
+  openAdminLogin() {
+    showModal('adminPassModal');
+    setTimeout(()=>el('adminPassInput').focus(),100);
   },
 
   verifyAdminPass() {
     const input = el('adminPassInput').value;
-    if(input===getAdminCreds().pass) {
+    const currentPass = localStorage.getItem('rsAdminPass') || '1234'; // Default is 1234
+    
+    if(input === currentPass) {
       hideModal('adminPassModal');
       el('adminPassInput').value='';
-      if(this._adminPassCb){ this._adminPassCb(); this._adminPassCb=null; }
+      this._doLogin('Admin', true);
     } else {
       toast('❌ Wrong password');
       el('adminPassInput').value='';
     }
   },
-  cancelAdminPass() { hideModal('adminPassModal'); el('adminPassInput').value=''; this._adminPassCb=null; },
+  cancelAdminPass() { hideModal('adminPassModal'); el('adminPassInput').value=''; },
+
+  _doLogin(name, asAdmin) {
+    this.user = name; 
+    this.isAdmin = asAdmin;
+    localStorage.setItem('rsUser', name);
+    localStorage.setItem('rsIsAdmin', asAdmin ? '1' : '0');
+    
+    el('loginView').classList.add('hidden');
+    el('appShell').classList.remove('hidden');
+    this.updateDrawer();
+    
+    if (asAdmin) { this.nav('admin'); toast(`Welcome Admin! 🛡️`); } 
+    else { this.nav('home'); toast(`Welcome, ${name}! 👋`); }
+  },
 
   logout() {
     if(!confirm('Logout?')) return;
@@ -871,7 +527,7 @@ const app = {
     this.user=null; this.isAdmin=false;
     el('loginView').classList.remove('hidden');
     el('appShell').classList.add('hidden');
-    el('loginName').value='';
+    this.populateLoginUsers();
   },
 
   nav(view) {
@@ -988,10 +644,7 @@ const app = {
 
   renderRecentPayments(payments) {
     const area=el('recentPayments');
-    if(!payments||!payments.length) {
-      area.innerHTML=`<div style="font-size:13px;color:var(--ink2);text-align:center;padding:12px 0;font-weight:600;">No payments logged yet</div>`;
-      return;
-    }
+    if(!payments||!payments.length) { area.innerHTML=`<div style="font-size:13px;color:var(--ink2);text-align:center;padding:12px 0;font-weight:600;">No payments logged yet</div>`; return; }
     area.innerHTML=[...payments].reverse().slice(0,5).map(p=>
       `<div class="pay-item">
         <div class="pay-desc">💳 ${escHtml(p.from)} → ${escHtml(p.to)} · ₹${parseFloat(p.amount).toFixed(2)}</div>
@@ -1006,8 +659,7 @@ const app = {
       <p style="margin-bottom:14px;font-size:13px;"><strong>${escHtml(from)}</strong> paying <strong>${escHtml(to)}</strong>. Outstanding: <strong>₹${parseFloat(maxAmt).toFixed(2)}</strong></p>
       <div class="form-group"><label class="form-label">Amount (₹)</label><input type="number" id="payAmt" value="${parseFloat(maxAmt).toFixed(2)}" min="0.01" step="0.01"></div>
       <div class="form-group"><label class="form-label">Note (optional)</label><input type="text" id="payNote" placeholder="e.g. Via UPI, Cash" maxlength="50"></div>`;
-    showModal('payModal');
-    setTimeout(()=>el('payAmt').focus(),100);
+    showModal('payModal'); setTimeout(()=>el('payAmt').focus(),100);
   },
 
   async confirmPayment() {
@@ -1015,8 +667,7 @@ const app = {
     const note=el('payNote').value.trim();
     if(!amt||amt<=0) return toast('Enter a valid amount');
     await db.addPayment({...this._payData,amount:amt,note,loggedBy:this.user});
-    hideModal('payModal');
-    toast(`✅ Payment of ₹${amt.toFixed(2)} recorded`);
+    hideModal('payModal'); toast(`✅ Payment of ₹${amt.toFixed(2)} recorded`);
     this.renderHome();
   },
 
@@ -1054,7 +705,6 @@ const app = {
       }).join('');
     }
 
-    // NEW: Generate Budget Progress Bars
     const bb=el('budgetBreakdown');
     const CAT = getCAT();
     const budgetedCats = Object.entries(CAT).filter(([c, v]) => v.budget && v.budget > 0);
@@ -1090,8 +740,6 @@ const app = {
     const area=el('chartArea'), CAT=getCAT();
     if(total===0) { area.innerHTML=`<div class="empty-state" style="padding:16px 0;"><div class="ei">📊</div><div class="et">No expenses yet</div></div>`; return; }
     let conic='',start=0,legendHTML='';
-    
-    // NEW: Sort Categories Highest to Lowest
     const sortedCats = Object.entries(catTotals).sort((a,b) => b[1] - a[1]);
 
     for(const [cat,amt] of sortedCats) {
@@ -1117,7 +765,6 @@ const app = {
       this.editId=expToEdit.id;
       el('addViewTitle').textContent='Edit Expense';
       el('submitBtn').textContent='Update Expense';
-      el('topBarTitle').textContent='Edit Expense';
       el('eAmt').value=expToEdit.amount;
       el('eDesc').value=expToEdit.desc;
       el('eCat').value=expToEdit.category||'Other';
@@ -1130,9 +777,7 @@ const app = {
     }
   },
 
-  populateCatSelect() {
-    el('eCat').innerHTML=Object.entries(getCAT()).map(([k,v])=>`<option value="${k}">${v.icon} ${k}</option>`).join('');
-  },
+  populateCatSelect() { el('eCat').innerHTML=Object.entries(getCAT()).map(([k,v])=>`<option value="${k}">${v.icon} ${k}</option>`).join(''); },
 
   editExpense(id) {
     const exp=db.local.get().expenses.find(e=>e.id===id);
@@ -1145,21 +790,17 @@ const app = {
   async deleteExpense(id) {
     if(!confirm('Delete this expense?')) return;
     await db.deleteExpense(id);
-    this.updateDrawer();
-    toast('Expense deleted');
-    this.renderTransactions();
+    this.updateDrawer(); toast('Expense deleted'); this.renderTransactions();
   },
 
   async submitExpense() {
-    const amount=parseFloat(el('eAmt').value);
-    const desc=el('eDesc').value.trim();
-    const cat=el('eCat').value;
+    const amount=parseFloat(el('eAmt').value), desc=el('eDesc').value.trim(), cat=el('eCat').value;
     const split=[...document.querySelectorAll('#splitGrid .split-check.on')].map(c=>c.dataset.name);
     if(!amount||amount<=0) return toast('Enter a valid amount');
     if(!desc)              return toast('Enter a description');
     if(!split.length)      return toast('Select at least one person');
-    const btn=el('submitBtn');
-    btn.disabled=true; btn.textContent='Saving…';
+    
+    const btn=el('submitBtn'); btn.disabled=true; btn.textContent='Saving…';
     try {
       if(this.editId) {
         const ex=db.local.get().expenses.find(e=>e.id===this.editId);
@@ -1175,11 +816,10 @@ const app = {
   },
 
   renderTransactions() {
-    const data=db.local.get(), CAT=getCAT();
-    const list=el('txList');
+    const data=db.local.get(), CAT=getCAT(), list=el('txList');
     if(!data.expenses.length) { list.innerHTML=`<div class="empty-state"><div class="ei">📭</div><div class="et">No transactions yet</div></div>`; return; }
     list.innerHTML=[...data.expenses].reverse().map(exp=>{
-      const canModify=exp.addedBy===this.user||(!exp.addedBy&&exp.paidBy===this.user);
+      const canModify=exp.addedBy===this.user||(!exp.addedBy&&exp.paidBy===this.user) || this.isAdmin;
       const c=CAT[exp.category]||CAT.Other;
       const share=((parseFloat(exp.amount)||0)/(exp.splitAmong.length||1)).toFixed(2);
       return `<div class="tx-item">
@@ -1189,76 +829,71 @@ const app = {
         </div>
         <div class="tx-meta"><span>Paid by <strong>${escHtml(exp.paidBy)}</strong></span><span>${exp.date||''}</span></div>
         <div class="tx-split">Split: ${exp.splitAmong.map(p=>`<strong>${escHtml(p)}</strong> (₹${share})`).join(' · ')}</div>
-        ${canModify
-          ?`<div class="tx-actions"><button class="btn-edit-sm" onclick="app.editExpense('${exp.id}')">✏️ Edit</button><button class="btn-del-sm" onclick="app.deleteExpense('${exp.id}')">🗑️ Delete</button></div>`
-          : `<div class="tx-added-by">Added by ${escHtml(exp.addedBy||exp.paidBy)}</div>`}
+        ${canModify ?`<div class="tx-actions"><button class="btn-edit-sm" onclick="app.editExpense('${exp.id}')">✏️ Edit</button><button class="btn-del-sm" onclick="app.deleteExpense('${exp.id}')">🗑️ Delete</button></div>` : `<div class="tx-added-by">Added by ${escHtml(exp.addedBy||exp.paidBy)}</div>`}
       </div>`;
     }).join('');
   },
 
-  // ── SETTINGS & SYNC ──
+  // ── SETTINGS, SYNC & ADMIN PASS ──
   clearAllData() {
     if(!confirm('Delete ALL local data?')) return;
     const user=this.user, url=db.getUrl(), admin=this.isAdmin;
     localStorage.clear();
-    localStorage.setItem('rsUser',user);
-    localStorage.setItem('rsIsAdmin',admin?'1':'0');
+    localStorage.setItem('rsUser',user); localStorage.setItem('rsIsAdmin',admin?'1':'0');
     if(url) localStorage.setItem('rsScriptUrl',url);
     toast('Local data cleared'); this.nav('home');
   },
+  
   updateSyncBadge() {
-    const pill=db.hasUrl()
-      ?`<span class="sync-pill sheets"><span class="sync-dot"></span>Google Sheets</span>`
-      :`<span class="sync-pill local"><span class="sync-dot"></span>Local Only</span>`;
+    const pill=db.hasUrl() ?`<span class="sync-pill sheets"><span class="sync-dot"></span>Google Sheets</span>`:`<span class="sync-pill local"><span class="sync-dot"></span>Local Only</span>`;
     el('syncIndicator').innerHTML=el('drawerSyncBadge').innerHTML=pill;
+  },
+
+  saveAdminCreds() {
+    const pass=el('newAdminPass').value, pass2=el('newAdminPass2').value;
+    if(pass.length<4) return toast('Password must be at least 4 chars');
+    if(pass!==pass2) return toast('Passwords do not match');
+    
+    localStorage.setItem('rsAdminPass', pass);
+    
+    const cats = JSON.parse(localStorage.getItem('rsCustomCats')||'{}');
+    db.updateSettings({ categories: cats, adminPass: pass }); // Syncs to cloud!
+    
+    hideModal('adminCredsModal'); toast('✅ Admin password saved to cloud!');
   },
 
   // ── CUSTOM CATEGORIES & BUDGETS ──
   openCatModal(editName = null) {
-    const ALL_CATS = getCAT();
-    const cat = editName ? ALL_CATS[editName] : null;
-    
-    _selIcon = cat ? cat.icon : ICON_OPTS[0];
-    _selColor = cat ? cat.color : COLOR_OPTS[0];
-    
-    el('catName').value = editName || '';
-    el('catName').disabled = !!editName && !!BUILT_IN_CATS[editName]; 
+    const ALL_CATS = getCAT(); const cat = editName ? ALL_CATS[editName] : null;
+    _selIcon = cat ? cat.icon : ICON_OPTS[0]; _selColor = cat ? cat.color : COLOR_OPTS[0];
+    el('catName').value = editName || ''; el('catName').disabled = !!editName && !!BUILT_IN_CATS[editName]; 
     el('catBudget').value = cat && cat.budget ? cat.budget : '';
-    
     el('iconPick').innerHTML=ICON_OPTS.map(i=>`<div class="icon-opt${i===_selIcon?' sel':''}" onclick="selIcon('${i}',this)">${i}</div>`).join('');
     el('colorPick').innerHTML=COLOR_OPTS.map(c=>`<div class="color-opt${c===_selColor?' sel':''}" onclick="selColor('${c}',this)" style="background:${c}"></div>`).join('');
-    
-    showModal('catModal');
-    setTimeout(()=>el(editName ? 'catBudget' : 'catName').focus(),100);
+    showModal('catModal'); setTimeout(()=>el(editName ? 'catBudget' : 'catName').focus(),100);
   },
   
   saveCategory() {
-    const name=el('catName').value.trim();
-    const budgetVal=parseFloat(el('catBudget').value);
+    const name=el('catName').value.trim(), budgetVal=parseFloat(el('catBudget').value);
     const budget=isNaN(budgetVal) || budgetVal <= 0 ? 0 : budgetVal;
-    
     if(!name) return toast('Enter a category name');
     
     const custom=JSON.parse(localStorage.getItem('rsCustomCats')||'{}');
     custom[name]={color:_selColor,icon:_selIcon,budget:budget};
-    
     localStorage.setItem('rsCustomCats',JSON.stringify(custom));
-    db.updateSettings(custom); // Sync to cloud
     
-    hideModal('catModal'); 
-    toast(`✅ "${name}" saved`); 
-    this.renderCustomCats();
+    const currentPass = localStorage.getItem('rsAdminPass') || '1234';
+    db.updateSettings({ categories: custom, adminPass: currentPass }); 
+    
+    hideModal('catModal'); toast(`✅ "${name}" saved`); this.renderCustomCats();
   },
   
   renderCustomCats() {
-    const ALL_CATS = getCAT();
-    const area=el('customCatList');
+    const ALL_CATS = getCAT(), area=el('customCatList');
     if(!Object.keys(ALL_CATS).length) return;
-    
     area.innerHTML=Object.entries(ALL_CATS).map(([name,v])=>{
       const isCustom = !BUILT_IN_CATS[name];
       const budgBadge = v.budget ? ` <span style="background:var(--safe-bg);color:var(--safe);padding:2px 6px;border-radius:4px;font-size:10px;">₹${fmt(v.budget)} Limit</span>` : '';
-      
       return `<span class="cat-chip" style="background:${v.color}22;color:${v.color};cursor:pointer;" onclick="app.openCatModal('${escHtml(name)}')">
         ${v.icon} ${escHtml(name)}${budgBadge}
         ${isCustom ? `<span class="rm" onclick="event.stopPropagation(); app.removeCategory('${escHtml(name)}')">✕</span>` : ''}
@@ -1268,51 +903,29 @@ const app = {
   
   removeCategory(name) {
     const custom=JSON.parse(localStorage.getItem('rsCustomCats')||'{}');
-    delete custom[name];
-    localStorage.setItem('rsCustomCats',JSON.stringify(custom));
-    db.updateSettings(custom); // Sync to cloud
+    delete custom[name]; localStorage.setItem('rsCustomCats',JSON.stringify(custom));
+    const currentPass = localStorage.getItem('rsAdminPass') || '1234';
+    db.updateSettings({ categories: custom, adminPass: currentPass }); 
     toast(`"${name}" removed`); this.renderCustomCats();
-  },
-
-  // ── ADMIN CREDS ──
-  saveAdminCreds() {
-    const user=el('newAdminUser').value.trim();
-    const pass=el('newAdminPass').value;
-    const pass2=el('newAdminPass2').value;
-    if(!user) return toast('Enter a username');
-    if(pass.length<4) return toast('Password must be at least 4 characters');
-    if(pass!==pass2) return toast('Passwords do not match');
-    localStorage.setItem('rsAdminUser',user);
-    localStorage.setItem('rsAdminPass',pass);
-    hideModal('adminCredsModal'); toast('✅ Admin credentials updated');
   },
 
   // ── ADMIN PANEL ──
   switchAdminTab(tab) {
-    ['members','sync','logs'].forEach(t=>{
-      el(`adminTab-${t}`).classList.toggle('hidden',t!==tab);
-      el(`atab-${t}`).classList.toggle('active',t===tab);
-    });
+    ['members','sync','logs'].forEach(t=>{ el(`adminTab-${t}`).classList.toggle('hidden',t!==tab); el(`atab-${t}`).classList.toggle('active',t===tab); });
     if(tab==='members') this.renderAdminMembers();
     if(tab==='logs')    this.renderAuditLog(this._logFilter);
     if(tab==='sync')    el('adminScriptUrlInput').value=db.getUrl();
   },
 
   renderAdminMembers() {
-    const data=db.local.get();
-    const area=el('adminMemberList');
+    const data=db.local.get(), area=el('adminMemberList');
     if(!data.users.length) { area.innerHTML=`<div style="font-size:13px;color:var(--ink2);padding:8px 0;">No members yet.</div>`; return; }
     area.innerHTML=data.users.map(u=>{
-      const initials=u.slice(0,2).toUpperCase();
-      const expCount=data.expenses.filter(e=>e.paidBy===u||e.splitAmong.includes(u)).length;
-      const isAdminUser=u.toLowerCase()===getAdminCreds().user.toLowerCase();
+      const initials=u.slice(0,2).toUpperCase(), expCount=data.expenses.filter(e=>e.paidBy===u||e.splitAmong.includes(u)).length;
       return `<div class="member-item">
         <div style="display:flex;align-items:center;gap:10px;flex:1;">
           <div class="member-avatar">${initials}</div>
-          <div>
-            <div class="member-name">${escHtml(u)}${isAdminUser?' <span style="font-size:10px;background:var(--admin-bg);color:var(--admin);padding:1px 6px;border-radius:99px;font-weight:800;">ADMIN</span>':''}</div>
-            <div class="member-sub">${expCount} expense${expCount!==1?'s':''} involved</div>
-          </div>
+          <div><div class="member-name">${escHtml(u)}</div><div class="member-sub">${expCount} expense${expCount!==1?'s':''} involved</div></div>
         </div>
         <div class="member-actions">
           <button class="btn-sm btn-edit-sm" onclick="app.openEditMember('${escHtml(u)}')">✏️</button>
@@ -1322,52 +935,69 @@ const app = {
     }).join('');
   },
 
-  openEditMember(name) {
-    el('editMemberName').value=el('editMemberOld').value=name;
-    showModal('editMemberModal');
-    setTimeout(()=>el('editMemberName').focus(),100);
-  },
-  confirmEditMember() {
+  openEditMember(name) { el('editMemberName').value=el('editMemberOld').value=name; showModal('editMemberModal'); setTimeout(()=>el('editMemberName').focus(),100); },
+  
+  async confirmEditMember() {
     const oldN=el('editMemberOld').value, newN=el('editMemberName').value.trim();
-    if(!newN||newN.length<2) return toast('Name must be at least 2 characters');
-    db.local.renameUser(oldN,newN);
+    if(!newN||newN.length<2) return toast('Name must be at least 2 chars');
+    
+    toast(`Renaming to "${newN}"...`);
+    await db.renameUser(oldN, newN); // Syncs to cloud!
+    
     if(oldN===this.user){ this.user=newN; localStorage.setItem('rsUser',newN); }
     hideModal('editMemberModal'); toast(`✅ Renamed to "${newN}"`);
     this.renderAdminMembers(); this.updateDrawer();
   },
-  adminAddMember() {
+  
+  async adminAddMember() {
     const name=el('newMemberName').value.trim();
-    if(!name||name.length<2) return toast('Enter a valid name (min 2 chars)');
+    if(!name||name.length<2) return toast('Enter a valid name');
     if(db.local.get().users.includes(name)) return toast('Member already exists');
-    db.local.addUser(name); el('newMemberName').value='';
+    el('newMemberName').value=''; 
+    
+    toast(`Adding "${name}"...`);
+    await db.addUser(name); // Syncs to cloud!
+    
     toast(`✅ "${name}" added`); this.renderAdminMembers(); this.updateDrawer();
   },
-  adminRemoveMember(name) {
+  
+  async adminRemoveMember(name) {
     if(name===this.user) return toast('Cannot remove yourself');
     if(!confirm(`Remove "${name}"? Their expenses remain.`)) return;
-    db.local.removeUser(name); toast(`"${name}" removed`);
-    this.renderAdminMembers(); this.updateDrawer();
+    
+    toast(`Removing "${name}"...`);
+    await db.deleteUser(name); // Syncs to cloud!
+    
+    toast(`"${name}" removed`); this.renderAdminMembers(); this.updateDrawer();
   },
-  adminSaveScriptUrl() {
+
+  async adminSaveScriptUrl() {
     const url=el('adminScriptUrlInput').value.trim();
     if(url&&!url.startsWith('https://script.google.com')) return toast('Paste a valid Apps Script URL');
     localStorage.setItem('rsScriptUrl',url);
-    el('scriptUrlInput').value=url;
     this.updateSyncBadge(); toast(url?'✅ URL saved!':'Disconnected');
+    
+    // Auto-fetch data to pull in names once connected
+    if (db.hasUrl()) {
+      loader(true);
+      try { await db.getAll(); } catch(e){} finally { loader(false); }
+      this.renderAdminMembers();
+    }
   },
+
+  async testConnection() {
+    if(!db.hasUrl()) return toast('No URL saved.');
+    loader(true);
+    try { const r=await db.sheets.getData(); toast(r.ok?'✅ Connected!':'❌ Error: '+(r.error||'Unknown')); }
+    catch(e){ toast('❌ Connection failed.'); } finally{ loader(false); }
+  },
+
   renderAuditLog(filter) {
-    this._logFilter=filter;
-    const data=db.local.get();
-    const logs=data.auditLog||[];
-    const filtered=filter==='all'?logs:logs.filter(l=>l.type===filter);
-    const area=el('auditLogList');
+    this._logFilter=filter; const data=db.local.get(), logs=data.auditLog||[];
+    const filtered=filter==='all'?logs:logs.filter(l=>l.type===filter), area=el('auditLogList');
     if(!filtered.length) { area.innerHTML=`<div class="empty-state" style="padding:20px 0;"><div class="ei">📋</div><div class="et">No logs found</div></div>`; return; }
     const labels={add:'Added',edit:'Edited',delete:'Deleted',pay:'Payment'};
-    area.innerHTML=filtered.map(log=>`
-      <div class="log-item">
-        <div class="log-action"><span class="log-badge ${log.type}">${labels[log.type]||log.type}</span>${escHtml(log.action)}</div>
-        <div class="log-meta">by <strong>${escHtml(log.by||'Unknown')}</strong>${log.amount?` · ₹${parseFloat(log.amount).toFixed(2)}`:''} · ${log.ts||''}</div>
-      </div>`).join('');
+    area.innerHTML=filtered.map(log=>`<div class="log-item"><div class="log-action"><span class="log-badge ${log.type}">${labels[log.type]||log.type}</span>${escHtml(log.action)}</div><div class="log-meta">by <strong>${escHtml(log.by||'Unknown')}</strong>${log.amount?` · ₹${parseFloat(log.amount).toFixed(2)}`:''} · ${log.ts||''}</div></div>`).join('');
   },
   filterLogs(f) { this.renderAuditLog(f); },
 };
@@ -1383,20 +1013,10 @@ function loader(s)   { el('loader').classList.toggle('hidden',!s); }
 
 let _tt;
 function toast(msg,ms=2800) {
-  clearTimeout(_tt);
-  const t=el('toast'); t.textContent=msg; t.classList.add('show');
-  _tt=setTimeout(()=>t.classList.remove('show'),ms);
+  clearTimeout(_tt); const t=el('toast'); t.textContent=msg; t.classList.add('show'); _tt=setTimeout(()=>t.classList.remove('show'),ms);
 }
-function splitCheckHTML(name,checked) {
-  return `<div class="split-check${checked?' on':''}" data-name="${escHtml(name)}" onclick="toggleCheck(this)">
-    <input type="checkbox" value="${escHtml(name)}"${checked?' checked':''}>
-    <div class="chk">${checked?'✓':''}</div>${escHtml(name)}</div>`;
-}
-function toggleCheck(el) {
-  el.classList.toggle('on');
-  const cb=el.querySelector('input'), chk=el.querySelector('.chk');
-  cb.checked=el.classList.contains('on'); chk.textContent=cb.checked?'✓':'';
-}
+function splitCheckHTML(name,checked) { return `<div class="split-check${checked?' on':''}" data-name="${escHtml(name)}" onclick="toggleCheck(this)"><input type="checkbox" value="${escHtml(name)}"${checked?' checked':''}><div class="chk">${checked?'✓':''}</div>${escHtml(name)}</div>`; }
+function toggleCheck(el) { el.classList.toggle('on'); const cb=el.querySelector('input'), chk=el.querySelector('.chk'); cb.checked=el.classList.contains('on'); chk.textContent=cb.checked?'✓':''; }
 function selIcon(icon,el)  { _selIcon=icon;  document.querySelectorAll('.icon-opt').forEach(e=>e.classList.remove('sel'));  el.classList.add('sel'); }
 function selColor(c,el)    { _selColor=c;    document.querySelectorAll('.color-opt').forEach(e=>e.classList.remove('sel')); el.classList.add('sel'); }
 
