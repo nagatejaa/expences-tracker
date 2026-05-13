@@ -736,19 +736,57 @@ const app = {
     }
   },
 
+  // renderChart(catTotals,total) {
+  //   const area=el('chartArea'), CAT=getCAT();
+  //   if(total===0) { area.innerHTML=`<div class="empty-state" style="padding:16px 0;"><div class="ei">📊</div><div class="et">No expenses yet</div></div>`; return; }
+  //   let conic='',start=0,legendHTML='';
+  //   const sortedCats = Object.entries(catTotals).sort((a,b) => b[1] - a[1]);
+
+  //   for(const [cat,amt] of sortedCats) {
+  //     if(!amt) continue;
+  //     const pct=(amt/total)*100, color=(CAT[cat]||CAT.Other).color, icon=(CAT[cat]||CAT.Other).icon;
+  //     conic+=`${color} ${start.toFixed(2)}% ${(start+pct).toFixed(2)}%, `;
+  //     start+=pct;
+  //     legendHTML+=`<div class="leg-item"><div class="leg-dot" style="background:${color}"></div><span class="leg-name">${icon} ${cat}</span><span class="leg-val">₹${fmt(amt)}</span></div>`;
+  //   }
+  //   area.innerHTML=`<div class="chart-row">
+  //     <div class="donut-wrap"><div class="donut-ring" style="background:conic-gradient(${conic.slice(0,-2)})"></div>
+  //     <div class="donut-hole"><div class="dh-amt">₹${fmt(total)}</div><div class="dh-lbl">Total</div></div></div>
+  //     <div class="legend">${legendHTML}</div></div>`;
+  // },
+
+
+
+
   renderChart(catTotals,total) {
     const area=el('chartArea'), CAT=getCAT();
     if(total===0) { area.innerHTML=`<div class="empty-state" style="padding:16px 0;"><div class="ei">📊</div><div class="et">No expenses yet</div></div>`; return; }
     let conic='',start=0,legendHTML='';
+    
     const sortedCats = Object.entries(catTotals).sort((a,b) => b[1] - a[1]);
+    
+    // NEW: Memory to track which colors are already on the chart
+    const usedColors = new Set();
 
     for(const [cat,amt] of sortedCats) {
       if(!amt) continue;
-      const pct=(amt/total)*100, color=(CAT[cat]||CAT.Other).color, icon=(CAT[cat]||CAT.Other).icon;
+      const pct=(amt/total)*100, icon=(CAT[cat]||CAT.Other).icon;
+      
+      // Grab the preferred color
+      let color=(CAT[cat]||CAT.Other).color;
+      
+      // NEW: If the color is already used, find a dynamically available one!
+      if (usedColors.has(color)) {
+        const availableColor = COLOR_OPTS.find(c => !usedColors.has(c));
+        if (availableColor) color = availableColor; 
+      }
+      usedColors.add(color); // Mark this color as taken
+
       conic+=`${color} ${start.toFixed(2)}% ${(start+pct).toFixed(2)}%, `;
       start+=pct;
       legendHTML+=`<div class="leg-item"><div class="leg-dot" style="background:${color}"></div><span class="leg-name">${icon} ${cat}</span><span class="leg-val">₹${fmt(amt)}</span></div>`;
     }
+    
     area.innerHTML=`<div class="chart-row">
       <div class="donut-wrap"><div class="donut-ring" style="background:conic-gradient(${conic.slice(0,-2)})"></div>
       <div class="donut-hole"><div class="dh-amt">₹${fmt(total)}</div><div class="dh-lbl">Total</div></div></div>
