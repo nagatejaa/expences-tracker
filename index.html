@@ -400,7 +400,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
 <div id="toast"></div>
 <div id="loader" class="hidden"><div class="spin"></div><span>Syncing...</span></div>
 
-<!-- ADMIN PASSWORD MODAL -->
 <div class="modal-bg hidden" id="adminPassModal">
   <div class="modal-box">
     <div class="modal-title">🔐 Admin Login</div>
@@ -415,7 +414,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
   </div>
 </div>
 
-<!-- LOG PAYMENT MODAL -->
 <div class="modal-bg hidden" id="payModal">
   <div class="modal-box">
     <div class="modal-title">💳 Log Payment</div>
@@ -425,7 +423,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
   </div>
 </div>
 
-<!-- EDIT MEMBER MODAL -->
 <div class="modal-bg hidden" id="editMemberModal">
   <div class="modal-box">
     <div class="modal-title">✏️ Edit Member</div>
@@ -440,13 +437,16 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
   </div>
 </div>
 
-<!-- ADD CATEGORY MODAL -->
 <div class="modal-bg hidden" id="catModal">
   <div class="modal-box">
-    <div class="modal-title">🏷️ Add Custom Category</div>
+    <div class="modal-title">🏷️ Setup Category & Budget</div>
     <div class="form-group">
       <label class="form-label">Category Name</label>
       <input type="text" id="catName" placeholder="e.g. Petrol" maxlength="20">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Monthly Budget (₹) - Leave blank to disable</label>
+      <input type="number" id="catBudget" placeholder="e.g. 5000" min="0">
     </div>
     <div class="form-group">
       <label class="form-label">Icon</label>
@@ -456,12 +456,11 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
       <label class="form-label">Color</label>
       <div class="color-pick" id="colorPick"></div>
     </div>
-    <button class="btn btn-primary" onclick="app.saveCategory()">Add Category</button>
+    <button class="btn btn-primary" onclick="app.saveCategory()">Save Category</button>
     <button class="btn btn-ghost" onclick="hideModal('catModal')">Cancel</button>
   </div>
 </div>
 
-<!-- CHANGE ADMIN CREDS MODAL -->
 <div class="modal-bg hidden" id="adminCredsModal">
   <div class="modal-box">
     <div class="modal-title">🔑 Change Admin Credentials</div>
@@ -482,7 +481,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
   </div>
 </div>
 
-<!-- ═══════════ LOGIN ═══════════ -->
 <div id="loginView">
   <div class="login-logo">🏠</div>
   <div class="login-title">RoomieSplit</div>
@@ -499,10 +497,8 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
   </div>
 </div>
 
-<!-- ═══════════ APP SHELL ═══════════ -->
 <div id="appShell" class="hidden">
 
-  <!-- TOP BAR -->
   <div class="top-bar">
     <button class="icon-btn" onclick="app.openDrawer()">
       <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><rect width="20" height="2" rx="1" fill="currentColor"/><rect y="6" width="14" height="2" rx="1" fill="currentColor"/><rect y="12" width="20" height="2" rx="1" fill="currentColor"/></svg>
@@ -514,7 +510,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
     </div>
   </div>
 
-  <!-- BOTTOM NAV -->
   <div class="bottom-nav">
     <button class="nav-item active" id="nav-home"     onclick="app.nav('home')"><span class="nav-icon">🏠</span>Home</button>
     <button class="nav-item"        id="nav-dash"     onclick="app.nav('dash')"><span class="nav-icon">📊</span>Charts</button>
@@ -522,7 +517,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
     <button class="nav-item"        id="nav-settings" onclick="app.nav('settings')"><span class="nav-icon">⚙️</span>Settings</button>
   </div>
 
-  <!-- OVERLAY & DRAWER -->
   <div class="overlay" id="overlay" onclick="app.closeDrawer()"></div>
   <div class="drawer" id="drawer">
     <div class="drawer-head">
@@ -539,7 +533,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
     <div class="drawer-footer" id="drawerSyncBadge"></div>
   </div>
 
-  <!-- ─── HOME ─── -->
   <div id="homeView">
     <div id="balanceHero" class="balance-hero even" style="margin-top:14px;">
       <div class="lbl" id="balLbl">Loading...</div>
@@ -560,7 +553,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
     <button class="fab" onclick="app.nav('add')">+</button>
   </div>
 
-  <!-- ─── DASHBOARD ─── -->
   <div id="dashView" class="hidden">
     <div class="card">
       <div class="card-label">Spending by Category</div>
@@ -570,10 +562,13 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
       <div class="card-label">Member Contribution</div>
       <div id="memberBreakdown"></div>
     </div>
+    <div class="card">
+      <div class="card-label">Category Budgets</div>
+      <div id="budgetBreakdown"></div>
+    </div>
     <button class="fab" onclick="app.nav('add')">+</button>
   </div>
 
-  <!-- ─── ADD / EDIT ─── -->
   <div id="addView" class="hidden">
     <div class="page-hdr">
       <button class="back-btn" onclick="app.nav('home')">←</button>
@@ -601,7 +596,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
     </div>
   </div>
 
-  <!-- ─── TRANSACTIONS ─── -->
   <div id="txView" class="hidden">
     <div style="padding: 10px 14px 0;">
       <div style="font-size:12px;color:var(--ink2);font-weight:600;background:var(--paper);padding:8px 12px;border-radius:8px;border:1px solid var(--border);margin-top:8px;">
@@ -611,21 +605,8 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
     <div class="tx-wrap" id="txList"></div>
   </div>
 
-  <!-- ─── SETTINGS ─── -->
   <div id="settingsView" class="hidden">
     <div class="card">
-      <!-- <div class="card-label">Google Sheets Sync</div>
-      <div class="settings-info">
-        📋 Connect to Google Sheets for <strong>persistent storage</strong> across all devices. Without this, data is only saved in <strong>your browser</strong>.
-      </div>
-      <div class="form-group">
-        <label class="form-label">Apps Script Web App URL</label>
-        <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
-      </div>
-      <button class="btn btn-primary" onclick="app.saveScriptUrl()">Save & Connect</button>
-      <button class="btn btn-outline" onclick="app.testConnection()">Test Connection</button>
-      <button class="btn btn-ghost"   onclick="app.clearScriptUrl()">Use Local Storage Only</button> -->
-
       <div class="setting-divider">Custom Categories</div>
       <div id="customCatList" style="margin-bottom:12px;"></div>
       <button class="btn btn-outline" onclick="app.openCatModal()">+ Add Category</button>
@@ -639,20 +620,8 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
       <div class="setting-divider">Danger Zone</div>
       <button class="btn btn-danger" onclick="app.clearAllData()">🗑️ Clear All Local Data</button>
     </div>
-    <div class="card">
-      <div class="card-label">Setup Guide</div>
-      <p style="font-size:13px;line-height:1.8;color:var(--ink);">
-        <strong>1.</strong> Create a new Google Sheet<br>
-        <strong>2.</strong> Extensions → Apps Script<br>
-        <strong>3.</strong> Paste the Apps Script code<br>
-        <strong>4.</strong> Run <code style="background:var(--paper);padding:1px 5px;border-radius:4px;">setupSheets()</code> once<br>
-        <strong>5.</strong> Deploy → Web App → Access: <strong>"Anyone"</strong><br>
-        <strong>6.</strong> Copy the URL and paste above
-      </p>
-    </div>
   </div>
 
-  <!-- ─── ADMIN PANEL ─── -->
   <div id="adminView" class="hidden">
     <div class="page-hdr">
       <button class="back-btn" onclick="app.nav('home')">←</button>
@@ -665,7 +634,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
       <button class="admin-tab"        id="atab-logs"    onclick="app.switchAdminTab('logs')">📋 Audit Log</button>
     </div>
 
-    <!-- Members Tab -->
     <div id="adminTab-members" class="card">
       <div class="card-label">Room Members</div>
       <div id="adminMemberList"></div>
@@ -679,7 +647,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
       </div>
     </div>
 
-    <!-- Sync Tab -->
     <div id="adminTab-sync" class="card hidden">
       <div class="card-label">Google Sheets Sync</div>
       <div class="settings-info">
@@ -694,7 +661,6 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
       <button class="btn btn-ghost"   onclick="app.clearScriptUrl()">Disconnect Sheets</button>
     </div>
 
-    <!-- Audit Log Tab -->
     <div id="adminTab-logs" class="card hidden">
       <div class="card-label">Activity Log</div>
       <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;">
@@ -708,9 +674,7 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
     </div>
   </div>
 
-</div><!-- /appShell -->
-
-<script>
+</div><script>
 const BUILT_IN_CATS = {
   Groceries: { color:'#10b981', icon:'🛒' },
   Rent:      { color:'#6366f1', icon:'🏠' },
@@ -729,18 +693,13 @@ function getAdminCreds() {
   return { user: localStorage.getItem('rsAdminUser') || 'Admin', pass: localStorage.getItem('rsAdminPass') || '1234' };
 }
 
-const MY_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtU_sUCZFZ6B1BzVpzfeZ-K5T535EU_nduVFx3V5j7E4-rvnbA2Tvt4pz--iVh0aET/exec'
-// const MY_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyyAQwnSgZq36rEN4-WYRcRhEn9_eC9AhN4YGBQ9ID1PmFZSHoqGCr51fjpnyncnzs/exec'; 
+// ── HARDCODED URL ──
+const MY_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtU_sUCZFZ6B1BzVpzfeZ-K5T535EU_nduVFx3V5j7E4-rvnbA2Tvt4pz--iVh0aET/exec';
+
 // ── DB ──
 const db = {
-  // Paste your actual Web App URL here:
-
-
   getUrl:  () => MY_SCRIPT_URL,
   hasUrl:  () => true,
-
-  // getUrl:  () => localStorage.getItem('rsScriptUrl') || '',
-  // hasUrl:  () => db.getUrl().startsWith('https://script.google.com'),
   local: {
     get() { return JSON.parse(localStorage.getItem('rsData') || '{"users":[],"expenses":[],"payments":[],"auditLog":[]}'); },
     set(d) { localStorage.setItem('rsData', JSON.stringify(d)); },
@@ -820,12 +779,21 @@ const db = {
           if(!m.payments) m.payments=[];
           if(!m.auditLog) m.auditLog = local.auditLog||[];
           local.users.forEach(u=>{ if(!m.users.includes(u)) m.users.push(u); });
+          
+          // NEW: Sync cloud settings/budgets to local storage
+          if(m.settings && Object.keys(m.settings).length > 0) {
+            localStorage.setItem('rsCustomCats', JSON.stringify(m.settings));
+          }
+          
           db.local.set(m);
           return m;
         }
       } catch(e) {}
     }
     return db.local.get();
+  },
+  async updateSettings(settingsObj) {
+    if(db.hasUrl()) try{ await db.sheets.post({action:'updateSettings', settings: settingsObj}); }catch(e){}
   },
   async addUser(n)        { db.local.addUser(n); if(db.hasUrl()) try{ await db.sheets.post({action:'addUser',name:n}); }catch(e){} },
   async addExpense(exp)   { const s=db.local.addExpense({...exp}); if(db.hasUrl()) try{ await db.sheets.post({action:'addExpense',expense:s}); }catch(e){} return s; },
@@ -922,7 +890,6 @@ const app = {
     else if(view==='tx')  { el('txView').classList.remove('hidden'); this.renderTransactions(); }
     else if(view==='settings') {
       el('settingsView').classList.remove('hidden');
-      el('scriptUrlInput').value=db.getUrl();
       this.renderCustomCats();
       if(this.isAdmin){ el('changeCredsBtn').classList.remove('hidden'); el('adminCredsSection').style.display=''; }
     } else if(view==='admin') {
@@ -1011,7 +978,6 @@ const app = {
           <span class="settle-amt">₹${pay.toFixed(2)}</span>
         </div>
         <div style="margin-top:8px;"><button class="btn-sm btn-pay-sm" onclick="app.openPayModal('${escHtml(fp)}','${escHtml(tp)}',${pay.toFixed(2)})">💳 Log Payment</button></div>
-       
       </div>`;
       d[i].amt-=pay; c[j].amt-=pay;
       if(d[i].amt<0.01) i++;
@@ -1068,29 +1034,67 @@ const app = {
       catTotals[cat]=(catTotals[cat]||0)+amt;
       memberTotals[exp.paidBy]=(memberTotals[exp.paidBy]||0)+amt;
     });
+    
     this.renderChart(catTotals,totalGroup);
+    
     const mb=el('memberBreakdown');
     if(!Object.keys(memberTotals).length) {
-      mb.innerHTML=`<div class="empty-state" style="padding:12px 0;"><div class="ei">👥</div><div class="et">No data yet</div></div>`; return;
+      mb.innerHTML=`<div class="empty-state" style="padding:12px 0;"><div class="ei">👥</div><div class="et">No data yet</div></div>`;
+    } else {
+      mb.innerHTML=Object.entries(memberTotals).sort((a,b)=>b[1]-a[1]).map(([name,amt])=>{
+        const pct=totalGroup?((amt/totalGroup)*100).toFixed(1):0;
+        return `<div style="margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-bottom:4px;">
+            <span>${escHtml(name)}</span><span>₹${fmt(amt)} <span style="font-weight:600;color:var(--ink2);">(${pct}%)</span></span>
+          </div>
+          <div style="height:8px;background:var(--border);border-radius:99px;overflow:hidden;">
+            <div style="height:100%;width:${pct}%;background:var(--accent);border-radius:99px;"></div>
+          </div>
+        </div>`;
+      }).join('');
     }
-    mb.innerHTML=Object.entries(memberTotals).sort((a,b)=>b[1]-a[1]).map(([name,amt])=>{
-      const pct=totalGroup?((amt/totalGroup)*100).toFixed(1):0;
-      return `<div style="margin-bottom:12px;">
-        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-bottom:4px;">
-          <span>${escHtml(name)}</span><span>₹${fmt(amt)} <span style="font-weight:600;color:var(--ink2);">(${pct}%)</span></span>
-        </div>
-        <div style="height:8px;background:var(--border);border-radius:99px;overflow:hidden;">
-          <div style="height:100%;width:${pct}%;background:var(--accent);border-radius:99px;"></div>
-        </div>
-      </div>`;
-    }).join('');
+
+    // NEW: Generate Budget Progress Bars
+    const bb=el('budgetBreakdown');
+    const CAT = getCAT();
+    const budgetedCats = Object.entries(CAT).filter(([c, v]) => v.budget && v.budget > 0);
+    
+    if (budgetedCats.length === 0) {
+      bb.innerHTML = '<div class="empty-state" style="padding:12px 0;"><div class="et">No budgets enabled</div><div class="es" style="font-size:12px;margin-top:6px;">Click on categories in Settings to set limits.</div></div>';
+    } else {
+      bb.innerHTML = budgetedCats.map(([cat, config]) => {
+        const spent = catTotals[cat] || 0;
+        const budget = config.budget;
+        const pct = Math.min((spent / budget) * 100, 100).toFixed(1);
+        const isOver = spent > budget;
+        const barColor = isOver ? 'var(--danger)' : config.color;
+        const left = budget - spent;
+
+        return `<div style="margin-bottom:14px;">
+          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-bottom:6px;">
+            <span>${config.icon} ${cat}</span>
+            <span style="color:${isOver ? 'var(--danger)' : 'var(--ink)'}">₹${fmt(spent)} / ₹${fmt(budget)}</span>
+          </div>
+          <div style="height:10px;background:var(--border);border-radius:99px;overflow:hidden;">
+            <div style="height:100%;width:${pct}%;background:${barColor};border-radius:99px;transition:width 0.3s;"></div>
+          </div>
+          <div style="font-size:11px;color:var(--ink2);margin-top:4px;font-weight:700;">
+            ${isOver ? `🚨 Over budget by ₹${fmt(Math.abs(left))}` : `₹${fmt(left)} left (${(100 - pct).toFixed(1)}%)`}
+          </div>
+        </div>`;
+      }).join('');
+    }
   },
 
   renderChart(catTotals,total) {
     const area=el('chartArea'), CAT=getCAT();
     if(total===0) { area.innerHTML=`<div class="empty-state" style="padding:16px 0;"><div class="ei">📊</div><div class="et">No expenses yet</div></div>`; return; }
     let conic='',start=0,legendHTML='';
-    for(const [cat,amt] of Object.entries(catTotals)) {
+    
+    // NEW: Sort Categories Highest to Lowest
+    const sortedCats = Object.entries(catTotals).sort((a,b) => b[1] - a[1]);
+
+    for(const [cat,amt] of sortedCats) {
       if(!amt) continue;
       const pct=(amt/total)*100, color=(CAT[cat]||CAT.Other).color, icon=(CAT[cat]||CAT.Other).icon;
       conic+=`${color} ${start.toFixed(2)}% ${(start+pct).toFixed(2)}%, `;
@@ -1187,29 +1191,12 @@ const app = {
         <div class="tx-split">Split: ${exp.splitAmong.map(p=>`<strong>${escHtml(p)}</strong> (₹${share})`).join(' · ')}</div>
         ${canModify
           ?`<div class="tx-actions"><button class="btn-edit-sm" onclick="app.editExpense('${exp.id}')">✏️ Edit</button><button class="btn-del-sm" onclick="app.deleteExpense('${exp.id}')">🗑️ Delete</button></div>`
-          :`<div class="tx-added-by">Added by ${escHtml(exp.addedBy||exp.paidBy)}</div>`}
+          : `<div class="tx-added-by">Added by ${escHtml(exp.addedBy||exp.paidBy)}</div>`}
       </div>`;
     }).join('');
   },
 
-  // ── SETTINGS ──
-  saveScriptUrl() {
-    const url=el('scriptUrlInput').value.trim();
-    if(url&&!url.startsWith('https://script.google.com')) return toast('Paste a valid Apps Script URL');
-    localStorage.setItem('rsScriptUrl',url);
-    this.updateSyncBadge(); toast(url?'✅ URL saved!':'Using local storage only');
-  },
-  async testConnection() {
-    if(!db.hasUrl()) return toast('No URL saved.');
-    loader(true);
-    try { const r=await db.sheets.getData(); toast(r.ok?'✅ Connected!':'❌ Error: '+(r.error||'Unknown')); }
-    catch(e){ toast('❌ Connection failed.'); } finally{ loader(false); }
-  },
-  clearScriptUrl() {
-    localStorage.removeItem('rsScriptUrl');
-    el('scriptUrlInput').value='';
-    this.updateSyncBadge(); toast('Using local storage only');
-  },
+  // ── SETTINGS & SYNC ──
   clearAllData() {
     if(!confirm('Delete ALL local data?')) return;
     const user=this.user, url=db.getUrl(), admin=this.isAdmin;
@@ -1226,36 +1213,64 @@ const app = {
     el('syncIndicator').innerHTML=el('drawerSyncBadge').innerHTML=pill;
   },
 
-  // ── CUSTOM CATEGORIES ──
-  openCatModal() {
-    _selIcon=ICON_OPTS[0]; _selColor=COLOR_OPTS[0];
-    el('catName').value='';
+  // ── CUSTOM CATEGORIES & BUDGETS ──
+  openCatModal(editName = null) {
+    const ALL_CATS = getCAT();
+    const cat = editName ? ALL_CATS[editName] : null;
+    
+    _selIcon = cat ? cat.icon : ICON_OPTS[0];
+    _selColor = cat ? cat.color : COLOR_OPTS[0];
+    
+    el('catName').value = editName || '';
+    el('catName').disabled = !!editName && !!BUILT_IN_CATS[editName]; 
+    el('catBudget').value = cat && cat.budget ? cat.budget : '';
+    
     el('iconPick').innerHTML=ICON_OPTS.map(i=>`<div class="icon-opt${i===_selIcon?' sel':''}" onclick="selIcon('${i}',this)">${i}</div>`).join('');
     el('colorPick').innerHTML=COLOR_OPTS.map(c=>`<div class="color-opt${c===_selColor?' sel':''}" onclick="selColor('${c}',this)" style="background:${c}"></div>`).join('');
+    
     showModal('catModal');
-    setTimeout(()=>el('catName').focus(),100);
+    setTimeout(()=>el(editName ? 'catBudget' : 'catName').focus(),100);
   },
+  
   saveCategory() {
     const name=el('catName').value.trim();
+    const budgetVal=parseFloat(el('catBudget').value);
+    const budget=isNaN(budgetVal) || budgetVal <= 0 ? 0 : budgetVal;
+    
     if(!name) return toast('Enter a category name');
-    if(getCAT()[name]) return toast('Category already exists');
+    
     const custom=JSON.parse(localStorage.getItem('rsCustomCats')||'{}');
-    custom[name]={color:_selColor,icon:_selIcon};
+    custom[name]={color:_selColor,icon:_selIcon,budget:budget};
+    
     localStorage.setItem('rsCustomCats',JSON.stringify(custom));
-    hideModal('catModal'); toast(`✅ "${name}" added`); this.renderCustomCats();
+    db.updateSettings(custom); // Sync to cloud
+    
+    hideModal('catModal'); 
+    toast(`✅ "${name}" saved`); 
+    this.renderCustomCats();
   },
+  
   renderCustomCats() {
-    const custom=JSON.parse(localStorage.getItem('rsCustomCats')||'{}');
+    const ALL_CATS = getCAT();
     const area=el('customCatList');
-    if(!Object.keys(custom).length) { area.innerHTML=`<p style="font-size:12px;color:var(--ink2);">No custom categories yet.</p>`; return; }
-    area.innerHTML=Object.entries(custom).map(([name,v])=>
-      `<span class="cat-chip" style="background:${v.color}22;color:${v.color};">${v.icon} ${escHtml(name)}<span class="rm" onclick="app.removeCategory('${escHtml(name)}')">✕</span></span>`
-    ).join('');
+    if(!Object.keys(ALL_CATS).length) return;
+    
+    area.innerHTML=Object.entries(ALL_CATS).map(([name,v])=>{
+      const isCustom = !BUILT_IN_CATS[name];
+      const budgBadge = v.budget ? ` <span style="background:var(--safe-bg);color:var(--safe);padding:2px 6px;border-radius:4px;font-size:10px;">₹${fmt(v.budget)} Limit</span>` : '';
+      
+      return `<span class="cat-chip" style="background:${v.color}22;color:${v.color};cursor:pointer;" onclick="app.openCatModal('${escHtml(name)}')">
+        ${v.icon} ${escHtml(name)}${budgBadge}
+        ${isCustom ? `<span class="rm" onclick="event.stopPropagation(); app.removeCategory('${escHtml(name)}')">✕</span>` : ''}
+      </span>`;
+    }).join('');
   },
+  
   removeCategory(name) {
     const custom=JSON.parse(localStorage.getItem('rsCustomCats')||'{}');
     delete custom[name];
     localStorage.setItem('rsCustomCats',JSON.stringify(custom));
+    db.updateSettings(custom); // Sync to cloud
     toast(`"${name}" removed`); this.renderCustomCats();
   },
 
